@@ -52,6 +52,8 @@ The **Campus Resource Information System** is a comprehensive application design
 - [Google Sheet Link](https://docs.google.com/spreadsheets/d/1pd5LzaK4hGkd692KFDixJeOYjV4epbjQcfNxTB4CJ5o/edit?usp=sharing)
 
 ---
+#### View Projects 
+- [Click Here](https://script.google.com/a/gnu.ac.in/macros/s/AKfycbzrv4xdJNDRajS5E1SM9qCDhf9wIb5iIIv5XQ0xEz16UY3ByU66gywt_B6NnJ1X_nRN/exec?page=student)
 
 ## Usage
 1. **Admin**: Use the provided Sheets to manage campus information like schedules and faculty details.

@@ -53,6 +53,8 @@ The **Campus Resource Information System** is a comprehensive application design
 
 ---
 #### View Projects 
+- Use student enrollment 12041, 12006
+- Faculty ID : 1201
 - [Click Here](https://script.google.com/a/gnu.ac.in/macros/s/AKfycbzrv4xdJNDRajS5E1SM9qCDhf9wIb5iIIv5XQ0xEz16UY3ByU66gywt_B6NnJ1X_nRN/exec?page=student)
 
 ## Usage

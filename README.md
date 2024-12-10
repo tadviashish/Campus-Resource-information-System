@@ -49,7 +49,7 @@ The **Campus Resource Information System** is a comprehensive application design
 - Share the Sheets with the necessary permissions.
 
 #### 3. Link to Sample Google Sheet:
-- [Google Sheet Link](https://docs.google.com/spreadsheets/d/1blFPpzy3JZFyWU7V7hot-AL3Qp__USv-5E01LzZDGYE/edit?usp=sharing)
+- [Google Sheet Link](https://docs.google.com/spreadsheets/d/1pd5LzaK4hGkd692KFDixJeOYjV4epbjQcfNxTB4CJ5o/edit?usp=sharing)
 
 ---
 

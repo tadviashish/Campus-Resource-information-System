@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+  <style>
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      width: 200px;
+      height: 100%;
+      background-color: #f1f1f1;
+    }
+
+    li a {
+      display: block;
+      color: #000;
+      padding: 8px 16px;
+      text-decoration: none;
+    }
+
+    li a.active {
+      background-color: #04AA6D;
+      color: white;
+    }
+
+    li a:hover:not(.active) {
+      background-color: #555;
+      color: white;
+    }
+
+    .navbar ul {
+      height: 42vw;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: row;
+      padding: 20px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .button-container {
+      margin-top: 20px;
+    }
+
+
+    .container {
+      max-width: 800px;
+      margin: 50px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 16px;
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div>
+    <?!= includeHeader(); ?>
+  </div>
+  <div class="content">
+    <nav class="navbar">
+      <ul>
+        <li><a href="<?= myURL(); ?>?page=admin">Home</a></li>
+        <li><a class="active" href="<?= myURL(); ?>?page=ground">Ground Floor</a></li>
+        <li><a href="<?= myURL(); ?>?page=first">First Floor</a></li>
+        <li><a href="<?= myURL(); ?>?page=second">Second Floor</a></li>
+      </ul>
+    </nav>
+    <div class="info">
+      <div class="container">
+        <div class="section">
+          <label for="timeSlot">Time Slot:</label>
+          <select id="timeSlot"></select>
+        </div>
+        <div class="section">
+          <button onclick="changeTimeSlot('prev')">Previous</button>
+          <button onclick="changeTimeSlot('next')">Next</button>
+          <button onclick="onSubmit()">Submit</button>
+        </div>
+        <div class="section">
+          <h3>Classes (Ground Floor)</h3>
+          <ul id="classList"></ul>
+        </div>
+        <div class="section">
+          <h3>Labs (Ground Floor)</h3>
+          <ul id="labList"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  </style>
+  <script>
+    let timeSlots = [
+        "8:30 9-15AM",
+        "9:15 10:00AM",
+        "10:00 10:10AM",
+        "10:10 10:55AM",
+        "10:55 11:40AM",
+        "11:40AM 12:30PM",
+        "12:30 1:20PM",
+        "1:20 2:10PM",
+        "2:10 2:55PM"
+      ];
+      let currentSlotIndex = 0;
+
+      function populateTimeSlots() {
+        const dropdown = document.getElementById('timeSlot');
+        timeSlots.forEach((slot, index) => {
+          const option = document.createElement('option');
+          option.value = slot;
+          option.text = slot;
+          if (index === 0) option.selected = true;
+          dropdown.appendChild(option);
+        });
+      }
+
+      function fetchFloorData() {
+        const timeSlot = timeSlots[currentSlotIndex];
+        google.script.run.withSuccessHandler(renderData).getFloorData(timeSlot);
+      }
+
+      function renderData(data) {
+        const classList = document.getElementById('classList');
+        const labList = document.getElementById('labList');
+        classList.innerHTML = '';
+        labList.innerHTML = '';
+
+        // Render classes
+        data.classes.forEach(c => {
+          const li = document.createElement('li');
+          li.innerText = `${c.location} - ${c.course}`;
+          li.onclick = () => fetchStudents(c.location);
+          classList.appendChild(li);
+        });
+
+        // Render labs
+        data.labs.forEach(l => {
+          const li = document.createElement('li');
+          li.innerText = `${l.location} - ${l.course}`;
+          labList.appendChild(li);
+        });
+      }
+
+      function fetchStudents(className) {
+        google.script.run.withSuccessHandler(renderStudents).getStudents(className);
+      }
+
+      function renderStudents(students) {
+        alert(`Students in the class:\n${students.join('\n')}`);
+      }
+
+      function changeTimeSlot(direction) {
+        if (direction === 'prev' && currentSlotIndex > 0) {
+          currentSlotIndex--;
+        } else if (direction === 'next' && currentSlotIndex < timeSlots.length - 1) {
+          currentSlotIndex++;
+        }
+        document.getElementById('timeSlot').value = timeSlots[currentSlotIndex];
+      }
+
+      function onSubmit() {
+        fetchFloorData();
+      }
+
+      window.onload = () => {
+        populateTimeSlots();
+      };
+  </script>
+</body>
+
+</html>

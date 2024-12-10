@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+        input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  height:100%;
+  background-color: #f1f1f1;
+}
+
+li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+li a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+li a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+.navbar ul{
+  height: 42vw;
+  
+}
+/* .navbar1 {
+position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+} */
+.content{
+  display:flex;
+}
+
+input{
+  padding: 16px;
+  margin: 30px;
+  height: 29px;
+}
+
+label{
+  height: 20px;
+   margin: 15px;
+}
+
+.info{
+  display: flex;
+  flex-direction: column;
+  margin-left: 8vw;
+  margin-top: 8vw;
+  align-items:flex-start;
+}
+
+
+</style>
+  </head>
+  <body>
+    <div class="container">
+    <?!=includeHeader(); ?>
+    </div>
+    <div class="content">
+    <nav class="navbar1">
+
+  <ul>
+    <li><a class="active" href="#home">Home</a></li>
+    <li><a href="<?=myURL(); ?>?page=ground">Ground Floor</a></li>
+    <li><a href="<?=myURL(); ?>?page=first">First Floor</a></li>
+    <li><a href="<?=myURL(); ?>?page=second">Second Floor</a></li>
+  </ul>
+</nav>
+
+<div class="info">
+    <h2>Search Information</h2>
+    <label for="input">Search Faculty</label>
+    <div>
+      <input type="text" id="fid" placeholder="Enter ID"/>
+      <input class="btn btn-primary " type="submit" onclick="finfo()" />
+    </div>
+    
+    <label for="input">Search Students</label>
+    <div>
+      <input type="text" id="id" placeholder="Enter Enrollment"/>
+      <input class="btn btn-primary bg-red" type="submit" onclick="sinfo()" />
+    </div>
+
+    <div id="result"></div>
+    <br>
+
+  </div>
+
+ </div>
+
+
+ <script>
+  function  sinfo () {
+        let txt = document.querySelector('#id').value;
+        let updateLocation = document.querySelector('#result');
+        //you can add other element here
+        updateLocation.innerHTML = "Getting detail...";
+
+        function onFailure(error){
+          let warning = "<span style='color:red'>"+error+"</span>";
+          updateLocation.innerHTML = warning;
+        };
+        
+        function onSuccess(response){
+          let result ="<span style='color:black'>"+response+"</span>";
+          updateLocation.innerHTML = result;
+
+        };
+        google.script.run.withFailureHandler(onFailure)
+                         .withSuccessHandler(onSuccess)
+                         .submitDT(txt);
+
+      };
+
+      function showResult(response) {
+            if (response.success) {
+            
+                let popup = window.open("", "Data", "width=600,height=400");
+                popup.document.write("<html><head><title>Data Fetched</title></head><body>");
+                popup.document.write(response.content);
+                popup.document.write("</body></html>");
+            } else {
+                alert(response.message);
+            }
+        }
+
+        function  finfo () {
+        let txt = document.querySelector('#fid').value;
+        let updateLocation = document.querySelector('#result');
+        //you can add other element here
+        updateLocation.innerHTML = "Getting detail...";
+
+        function onFailure(error){
+          let warning = "<span style='color:red'>"+error+"</span>";
+          updateLocation.innerHTML = warning;
+        };
+        
+        function onSuccess(response){
+          let result ="<span style='color:black'>"+response+"</span>";
+          updateLocation.innerHTML = result;
+
+        };
+        google.script.run.withFailureHandler(onFailure)
+                         .withSuccessHandler(onSuccess)
+                         .submitFData(txt);
+
+      };
+
+      function showResult(response) {
+            if (response.success) {
+                // Create a pop-up for displaying the result
+                let popup = window.open("", "Data", "width=600,height=400");
+                popup.document.write("<html><head><title>Data Fetched</title></head><body>");
+                popup.document.write(response.content);
+                popup.document.write("</body></html>");
+            } else {
+                alert(response.message);
+            }
+        }
+  </script>
+  </body>
+</html>

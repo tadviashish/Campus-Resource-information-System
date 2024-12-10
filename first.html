@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  height:100%;
+  background-color: #f1f1f1;
+}
+
+li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+li a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+li a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+.navbar ul{
+  height: 42vw;
+}
+.content{
+  display:flex;
+}
+</style>
+  </head>
+  <body>
+    <div>
+    <?!=includeHeader(); ?>
+    </div>
+    <div class="content">
+    <nav class="navbar">
+  <ul>
+    <li><a  href="<?=myURL(); ?>?page=admin">Home</a></li>
+    <li><a href="<?=myURL(); ?>?page=ground">Ground Floor</a></li>
+    <li><a class="active" href="<?=myURL(); ?>?page=first">First Floor</a></li>
+    <li><a href="<?=myURL(); ?>?page=second">Second Floor</a></li>
+  </ul>
+</nav>
+<div class="info">
+<h1>im first floor</h1>
+</div>
+
+ </div>
+  </body>
+</html>
